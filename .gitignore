@@ -1,0 +1,41 @@
+# Python virtual environments
+venv/
+.env/
+.venv/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Alembic / local database artifacts
+*.sqlite3
+*.db
+
+# Coverage / test reports
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+
+# Logs
+*.log
