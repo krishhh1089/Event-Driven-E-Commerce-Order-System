@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.api.notifications import router as notification_router
 
 app = FastAPI(
     title="Event Notification System",
@@ -6,6 +7,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.include_router(notification_router)
 
 @app.get("/")
 def home():
