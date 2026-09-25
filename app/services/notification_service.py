@@ -8,6 +8,7 @@ def create_notifications(
     db: Session,
     notification: NotificationCreate
 ):
+    """Create a new notification in the database."""
     new_notification = Notification(
         recipient_email=notification.recipient_email,
         subject=notification.subject,
