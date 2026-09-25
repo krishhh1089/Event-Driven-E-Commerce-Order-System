@@ -17,3 +17,13 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+
+def get_db():
+    """Provide a database session and close it after use."""
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()
