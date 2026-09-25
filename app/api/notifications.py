@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database import SessionLocal
 from app.models.notification import Notification
 from app.schemas.notification import NotificationCreate
+from app.services import notification_service
 
 router = APIRouter(
     prefix="/notifications",
@@ -26,26 +27,13 @@ def create_notification(
     notification: NotificationCreate,
     db: Session = Depends(get_db)
 ):
-    try:
-        new_notification = Notification(
-            recipient_email=notification.recipient_email,
-            subject=notification.subject,
-            message=notification.message
-        )
+    new_notification = notification_service.create_notifications(
+        db,
+        notification
+    )
 
-        db.add(new_notification)
-        db.commit()
-        db.refresh(new_notification)
-
-        return {
-            "message": "Notification created successfully",
-            "notification_id": new_notification.id,
-            "status": new_notification.status
-        }
-
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
+    return {
+        "message": "Notification created successfully",
+        "notification_id": new_notification.id,
+        "status": new_notification.status
+    }
