@@ -28,10 +28,16 @@ def test_health_check_database_disconnected():
         "app.main.engine.connect",
         side_effect=SQLAlchemyError("Database unavailable")
     ):
-        response = client.get("/health")
+        with patch("app.main.logger.exception") as mock_logger:
+            response = client.get("/health")
 
-        assert response.status_code == 503
-        assert response.json() == {
-            "status": "unhealthy",
-            "database": "disconnected"
-        }
+            assert response.status_code == 503
+
+            assert response.json() == {
+                "status": "unhealthy",
+                "database": "disconnected"
+            }
+
+            mock_logger.assert_called_once_with(
+                "Database health check failed"
+            )

@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI
 from app.api.notifications import router as notification_router
 
@@ -5,6 +6,8 @@ from app.core.database import engine
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Event Notification System",
@@ -33,6 +36,7 @@ def health_check():
         }
 
     except SQLAlchemyError:
+        logger.exception("Database health check failed")
         return JSONResponse(
             status_code=503,
             content={
