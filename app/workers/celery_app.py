@@ -13,5 +13,7 @@ broker_url = (
 
 celery_app = Celery(
     "notification_worker",
-    broker=broker_url
+    broker=broker_url,
+    backend="rpc://",
+    include=["app.workers.tasks"]
 )
